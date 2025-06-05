@@ -47,7 +47,12 @@ ESP-IDF Setup Guide
 
 ## 📺 Demo
 
-Phase 1: Toggle relay via GPIO [Link or embedded video link]
+## 📺 Demo – Phase 1: Toggle Relay via GPIO
+
+[![Watch the demo]](https://www.youtube.com/shorts/0ckJTFtfJxI?feature=share)
+
+<iframe width="381" height="677" src="https://www.youtube.com/embed/0ckJTFtfJxI" title="Toggle Relay via GPIO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 ## License
 
