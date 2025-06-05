@@ -45,11 +45,9 @@ idf.py -p /dev/ttyUSB0 flash monitor
 Make sure you’ve installed the ESP-IDF toolchain and environment:
 ESP-IDF Setup Guide
 
-## 📺 Demo
-
 ## 📺 Demo – Phase 1: Toggle Relay via GPIO
 
-[![Watch the demo]](https://www.youtube.com/shorts/0ckJTFtfJxI?feature=share)
+[![Watch the demo on YouTube](https://img.youtube.com/vi/0ckJTFtfJxI/0.jpg)](https://www.youtube.com/watch?v=0ckJTFtfJxI)
 
 <iframe width="381" height="677" src="https://www.youtube.com/embed/0ckJTFtfJxI" title="Toggle Relay via GPIO" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
