@@ -47,11 +47,14 @@ ESP-IDF Setup Guide
 
 ## 📺 Demo – Phase 1: Toggle Relay via GPIO
 
-[![Watch the demo on YouTube](https://img.youtube.com/vi/0ckJTFtfJxI/0.jpg)](https://www.youtube.com/watch?v=0ckJTFtfJxI)
+[![Watch the demo on YouTube](https://img.youtube.com/vi/0ckJTFtfJxI/0.jpg)](https://youtube.com/shorts/I_bsE-cPEDw?feature=share)
 
 ## 📺 Demo – Phase 2: Control Relay via Button (GPIO Input + GPIO Output)
 
 [![Watch the demo on YouTube](https://i.ytimg.com/vi/V0q86zt8WE8/oar2.jpg?sqp=-oaymwEoCJUDENAFSFqQAgHyq4qpAxcIARUAAIhC2AEB4gEKCBgQAhgGOAFAAQ==&rs=AOn4CLBtIrccLvqiRthBVTyTCH-WMeqngQ)](https://youtu.be/V0q86zt8WE8?list=PLM2vOwekYYA9Dzuonxj3bN23sQMp2RJj7)
+
+## 📺 Demo – Phase 3: Control Relay via Button (GPIO Input + GPIO Output) + LED indicator
+[![Watch the demo on YouTube](https://i.ytimg.com/vi/f3_GK1Ifn0w/hqdefault.jpg?sqp=-oaymwFBCPYBEIoBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AGMCYAC0AWKAgwIABABGGUgTSg8MA8=&rs=AOn4CLCbK9b96aN1cvnxg7q1LFuGccgXkQ)](https://youtu.be/f3_GK1Ifn0w)
 
 ## License
 
