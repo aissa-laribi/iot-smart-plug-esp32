@@ -1,10 +1,3 @@
-/*
-   Toggling Relay Module (Not Connected to AC)
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-   Distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND.
-*/
-
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -12,8 +5,7 @@
 #include "esp_log.h"
 #include "sdkconfig.h"
 
-#define RELAY_MODULE 26  // GPIO pin connected to the relay module input
-
+#define RELAY_MODULE 26
 static const char *TAG = "RelayExample";
 
 void app_main(void)

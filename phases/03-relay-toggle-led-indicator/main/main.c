@@ -5,9 +5,9 @@
 #include "esp_log.h"
 #include "sdkconfig.h"
 
-#define GPIO_BUTTON 14
-#define GPIO_LED 25
-#define GPIO_RELAY 26
+#define BUTTON_GPIO 14
+#define LED_GPIO 25
+#define RELAY_GPIO 26
 
 void app_main(void){
     gpio_reset_pin(BUTTON_GPIO);
@@ -17,7 +17,7 @@ void app_main(void){
     gpio_set_direction(BUTTON_GPIO, GPIO_MODE_INPUT);
     gpio_set_direction(RELAY_GPIO, GPIO_MODE_OUTPUT);
     gpio_set_direction(LED_GPIO, GPIO_MODE_OUTPUT);
-    gpio_set_pull_mode(GPIO_BUTTON, GPIO_PULLUP_ONLY);
+    gpio_set_pull_mode(BUTTON_GPIO, GPIO_PULLUP_ONLY);
     int cur_button_state = 0;
     int last_button_state = 0;
     int led_state = 0;
