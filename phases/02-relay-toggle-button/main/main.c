@@ -8,7 +8,6 @@
 #define RELAY_MODULE 26
 #define BUTTON_SWITCH 14
 
-
 void app_main(void)
 {
 
@@ -21,14 +20,17 @@ void app_main(void)
     int last_but_state = 0;
     int ledState = 0;
 
-    while (1) {
+    while (1) {  
         cur_but_state = gpio_get_level(BUTTON_SWITCH);
-
         if(cur_but_state == 0 && last_but_state == 1){
                 ledState = !ledState;
                 gpio_set_level(RELAY_MODULE, ledState); // ON
-                vTaskDelay(pdMS_TO_TICKS(200));
+                vTaskDelay(pdMS_TO_TICKS(10));
+                printf("Relay toggled to: %d\n", ledState);
         }
         last_but_state = cur_but_state;
+        vTaskDelay(pdMS_TO_TICKS(20));
         }
+        
     }
+    
