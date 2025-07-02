@@ -6,7 +6,7 @@
 #include "sdkconfig.h"
 
 #define RELAY_MODULE 26
-static const char *TAG = "RelayExample";
+static const char *TAG = "Relay:";
 
 void app_main(void)
 {

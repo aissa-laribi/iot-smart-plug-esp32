@@ -28,8 +28,10 @@ void app_main(void){
             led_state = !led_state;
             gpio_set_level(LED_GPIO,led_state);
             gpio_set_level(RELAY_GPIO,led_state);
-            vTaskDelay(pdMS_TO_TICKS(200));
+            vTaskDelay(pdMS_TO_TICKS(10));
+            printf("Relay toggled to: %d\n", led_state);
         }
         last_button_state = cur_button_state;
+        vTaskDelay(pdMS_TO_TICKS(20));//Otherwise it will work but the monitor will return a Watchdog error(Starvation of idle task)
     }
 }
