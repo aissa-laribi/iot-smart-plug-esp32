@@ -13,24 +13,145 @@
 #define RELAY_GPIO 26
 #define ESP_WIFI_SSID      "ESP32-SMARTPLUG"
 #define ESP_WIFI_PASS      "123456789"
+#ifndef MIN
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#endif
 //#define EXAMPLE_MAX_STA_CONN       CONFIG_ESP_MAX_STA_CONN
+static  int RELAY_STATE = 0;
 
+/*Function for controlling the relay via browser
+void browser_toggle(){
+    printf("BROWSER TOGGLE\n");
+    int current_relay_state = 0;
+    int last_relay_state = 0;
+    int led_state = 0;
+
+    for(;;){
+        current_relay_state = gpio_get_level(RELAY_GPIO);
+        if(current_relay_state == 0 && last_relay_state == 1){
+            led_state = !led_state;
+            gpio_set_level(RELAY_GPIO, led_state);
+            gpio_set_level(LED_GPIO, led_state);
+            vTaskDelay(pdMS_TO_TICKS(10));
+        }
+        last_relay_state = current_relay_state;
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+}*/
 
 /* Our URI handler function to be called during GET /uri request */
 esp_err_t get_handler(httpd_req_t *req)
 {
+      
     /* Send a simple response */
-    const char* resp = "<html>\n"
-"  <head><title>Smart Plug</title></head>\n"
-"  <body>\n"
-"    <h1>Relay Control</h1>\n"
-"    <button onclick=\"fetch('/toggle')\">Toggle Relay</button>\n"
-"  </body>\n"
-"</html>\n";
-    httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
-    return ESP_OK;
+    if (!RELAY_STATE)
+    {
+        const char* resp = "<!DOCTYPE html>\n"
+        "<html>\n"
+        "<head>\n"
+        "<meta charset='UTF-8' \>\n"
+        "<title>Remote Control</title>\n"
+        "</head>\n"
+        "<body>\n"
+        "<h1>ESP32 Smart Plug</h1>\n"
+        "<button type='button' onclick='httpToggle()'>SWITCH ON</button>\n"
+        "</body>\n"
+        "</html>\n"
+        "<script>\n"
+            "const button = document.querySelector('button');\n"
+            "button.addEventListener('click', updateName);\n"
+            ""
+
+            "function updateName() {\n"
+            "if(button.textContent === 'SWITCH ON'){\n"
+                "button.textContent = 'SWITCH OFF';\n"
+            "} else if(button.textContent === 'SWITCH OFF') {\n"
+                "button.textContent = 'SWITCH ON';\n"
+            "}\n"
+            "}\n"
+            "async function httpToggle(){\n"
+                "const response = await fetch('/uri', {\n"
+                "method: 'POST',\n"
+                "});\n"
+            "}\n"
+        "</script>\n" ;
+        httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
+        return ESP_OK;
+    } else if(RELAY_STATE){
+        const char* resp = "<!DOCTYPE html>\n"
+        "<html>\n"
+        "<head>\n"
+        "<meta charset='UTF-8' \>\n"
+        "<title>Remote Control</title>\n"
+        "</head>\n"
+        "<body>\n"
+        "<h1>ESP32 Smart Plug</h1>\n"
+        "<button type='button' onclick='httpToggle()'>SWITCH OFF</button>\n"
+        "</body>\n"
+        "</html>\n"
+        "<script>\n"
+            "const button = document.querySelector('button');\n"
+            "button.addEventListener('click', updateName);\n"
+            
+
+            "function updateName() {\n"
+            "if(button.textContent === 'SWITCH ON'){\n"
+                "button.textContent = 'SWITCH OFF';\n"
+            "} else if(button.textContent === 'SWITCH OFF') {\n"
+                "button.textContent = 'SWITCH ON';\n"
+            "}\n"
+            "}\n"
+            "async function httpToggle(){\n"
+                "const response = await fetch('/uri', {\n"
+                "method: 'POST',\n"
+                "});\n"
+            "}\n"
+        "</script>\n" ;
+        httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
+        return ESP_OK;
+    }
+    return ESP_FAIL;
+
 }
 
+/* Our URI handler function to be called during POST /uri request */
+esp_err_t post_handler(httpd_req_t *req)
+{
+    printf("POST HANDLER CALLED\n");
+    /* Destination buffer for content of HTTP POST request.
+     * httpd_req_recv() accepts char* only, but content could
+     * as well be any binary data (needs type casting).
+     * In case of string data, null termination will be absent, and
+     * content length would give length of string */
+    char content[100];
+
+    /* Truncate if content length larger than the buffer */
+    size_t recv_size = MIN(req->content_len, sizeof(content));
+
+    int ret = httpd_req_recv(req, content, recv_size);
+    printf("Metod: %d", req->method);
+    
+
+    /* Send a simple response */
+    const char resp[] = "URI POST Response";
+    httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
+
+    switch(RELAY_STATE){
+        case 0:
+            gpio_set_level(RELAY_GPIO,1);
+            gpio_set_level(LED_GPIO,1);
+            RELAY_STATE = 1;
+            break;
+        case 1:
+            gpio_set_level(RELAY_GPIO,0);
+            gpio_set_level(LED_GPIO,0);
+            RELAY_STATE = 0;
+            break;
+        default:
+            break;
+    }
+    return ESP_OK;
+}
 
 /* URI handler structure for GET /uri */
 httpd_uri_t uri_get = {
@@ -40,6 +161,13 @@ httpd_uri_t uri_get = {
     .user_ctx = NULL
 };
 
+/* URI handler structure for POST /uri */
+httpd_uri_t uri_post = {
+    .uri      = "/uri",
+    .method   = HTTP_POST,
+    .handler  = post_handler,
+    .user_ctx = NULL
+};
 
 /* Function for starting the webserver */
 httpd_handle_t start_webserver(void)
@@ -83,7 +211,7 @@ httpd_handle_t start_webserver(void)
         /* Register URI handlers */
         printf("SERVER STARTED\n");
         httpd_register_uri_handler(server, &uri_get);
-        //httpd_register_uri_handler(server, &uri_post);
+        httpd_register_uri_handler(server, &uri_post);
     }
     /* If server failed to start, handle will be NULL */
     printf("SERVER RETURNED!");
@@ -118,6 +246,7 @@ void button_task(void * pvParameters){
         cur_button_state = gpio_get_level(BUTTON_GPIO);
         if(cur_button_state == 0 && last_button_state == 1){
             led_state = !led_state;
+            RELAY_STATE = ! RELAY_STATE;
             gpio_set_level(LED_GPIO,led_state);
             gpio_set_level(RELAY_GPIO,led_state);
             vTaskDelay(pdMS_TO_TICKS(10));
@@ -149,6 +278,8 @@ void app_main(void){
     */
     xTaskCreate(server_task,"server_task",4096,NULL,3,NULL);
     vTaskDelay(pdMS_TO_TICKS(100));
+    /*xTaskCreate(browser_toggle,"browser_toggle",2048,NULL,5,NULL);
+    vTaskDelay(pdMS_TO_TICKS(100));*/
     xTaskCreate(button_task,"button_task",2048,NULL,5,NULL);
     vTaskDelay(pdMS_TO_TICKS(100));
 }

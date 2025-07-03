@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Remote Control</title>
+</head>
+<body>
+    <h1>ESP32 Smart Plug</h1>
+    <button type="button" onclick="">SWITCH ON</button>
+</body>
+</html>
+<script>
+    const button = document.querySelector("button");
+    button.addEventListener("click", updateName);
+
+    function updateName() {
+        if(button.textContent === 'SWITCH ON'){
+            button.textContent = 'SWITCH OFF';
+        } else if(button.textContent === 'SWITCH OFF') {
+            button.textContent = 'SWITCH ON';
+        }
+    }
+
+    async function httpToggle(){
+        const response = await fetch("/uri", {
+        method: "POST",
+    });
+    }
+
+</script>
