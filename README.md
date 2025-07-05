@@ -1,6 +1,6 @@
 # ESP32 Smart Plug 💡🔌
 
-This project demonstrates the development of a **smart plug** system using the **ESP32** microcontroller and the **ESP-IDF** framework. It is structured in clear development phases, from basic relay control to adding buttons, wireless control via Wi-Fi or Bluetooth and AC handling
+This project demonstrates the development of a **smart plug** system using the **ESP32** microcontroller and the **ESP-IDF** framework. It is structured in clear development phases, from basic relay control to adding buttons, wireless control via Wi-Fi or Bluetooth(maybe later) and AC handling
 
 > ⚠️ **Disclaimer**: Currently, this project currently does **not** handle high-voltage AC connections. The relay is toggled for **demonstration purposes only** using safe low-voltage logic. Proceed with caution when dealing with real electrical loads.
 
@@ -19,7 +19,7 @@ To build a professional-grade, modular smart plug using **low-level embedded dev
 - F-M DuPont Cables
 - Button switch
 - LED-Red
-- More components to come as project progress
+- Resistor 
 
 ---
 
@@ -31,8 +31,7 @@ esp32-smart-plug/
 │   ├── 01-relay-toggle/        # Toggle relay using GPIO
 │   ├── 02-button-toggle/       # Add push-button control
 │   ├── 03-led-indicator/       # Add LED feedback for relay state
-│   ├── 04-wireless-control/    # (Ongoing) Wi-Fi or Bluetooth toggle via app/web   
-|   ├── 05-ac-wiring/           # (Future) Controlled AC output — ⚠️ HIGH VOLTAGE
+│   ├── 04-wireless-control/    # (Ongoing) Wi-Fi AP toggle via app/web  
 ├── README.md                   # <-- You are here
 └── .gitignore
 ```
@@ -53,24 +52,31 @@ ESP-IDF Setup Guide
 
 ### 🔌 Wiring
 
-(![alt text](01-toggle-relay.png))
+![alt text](01-toggle-relay.png)
 
 ### 📺 LIVE Demo 
-[![Watch the demo on YouTube](https://i.ytimg.com/vi/I_bsE-cPEDw/hqdefault.jpg?sqp=-oaymwFACKgBEF5IWvKriqkDMwgBFQAAiEIYAdgBAeIBCggYEAIYBjgBQAHwAQH4AbYIgAKAD4oCDAgAEAEYZSBlKGUwDw==&rs=AOn4CLAVTNIzOsBuCITcUr9vbY1mGA8cxQ)](https://youtu.be/I_bsE-cPEDw?feature=shared)
+[![Watch the demo on YouTube](https://i.ytimg.com/vi/I_bsE-cPEDw/hqdefault.jpg?sqp=-oaymwFACKgBEF5IWvKriqkDMwgBFQAAiEIYAdgBAeIBCggYEAIYBjgBQAHwAQH4AbYIgAKAD4oCDAgAEAEYZSBlKGUwDw==&rs=AOn4CLAVTNIzOsBuCITcUr9vbY1mGA8cxQ)](https://youtube.com/shorts/I_bsE-cPEDw)
 
 ## Phase 2: Control Relay via Button (GPIO Input + GPIO Output)
 
 ### 🔌 Wiring 
-((![alt text](02-toggle-relay-button.png)))
+![alt text](02-toggle-relay-button.png)
 
 ### 📺 LIVE Demo 
 [![Watch the demo on YouTube](https://i.ytimg.com/vi/V0q86zt8WE8/oar2.jpg?sqp=-oaymwEoCJUDENAFSFqQAgHyq4qpAxcIARUAAIhC2AEB4gEKCBgQAhgGOAFAAQ==&rs=AOn4CLBtIrccLvqiRthBVTyTCH-WMeqngQ)](https://youtu.be/V0q86zt8WE8?list=PLM2vOwekYYA9Dzuonxj3bN23sQMp2RJj7)
 
 ## Phase 3: Control Relay via Button (GPIO Input + GPIO Output) + LED indicator
-((![alt text](03-toggle-relay-button-led-indicator.png)))
+![alt text](03-toggle-relay-button-led-indicator.png)
 
 ### 📺 LIVE Demo 
 [![Watch the demo on YouTube](https://i.ytimg.com/vi/f3_GK1Ifn0w/hqdefault.jpg?sqp=-oaymwFBCPYBEIoBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AGMCYAC0AWKAgwIABABGGUgTSg8MA8=&rs=AOn4CLCbK9b96aN1cvnxg7q1LFuGccgXkQ)](https://youtu.be/f3_GK1Ifn0w)
+
+### Phase 4: Wireless Control
+
+![alt text](03-toggle-relay-button-led-indicator.png)
+
+### 📺 LIVE Demo 
+[![Watch the demo on YouTube](https://i.ytimg.com/an_webp/kPlSftpByq8/mqdefault_6s.webp?du=3000&sqp=CNmqpMMG&rs=AOn4CLCdkpqHIbCo7yc0STY_afo9PtIsuQ)](https://youtu.be/kPlSftpByq8)
 
 ## License
 
