@@ -3,15 +3,90 @@
 <head>
     <meta charset="UTF-8" />
     <title>Remote Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h1>ESP32 Smart Plug</h1>
-    <button type="button" onclick="">SWITCH ON</button>
+    <div class='container'>
+        <nav>
+            <h1>ESP32 Smart Plug</h1>
+        </nav>
+        <div id='col1'></div>
+        <div id='col2'>
+            <button type="button" onclick="httpToggle()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-power"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+        </button>
+        </div>
+        <div id='col3'></div>
+    </div>
 </body>
 </html>
+<style>
+    .container {
+        display: grid;
+        height: 100vh;
+
+        grid-template-columns: 2fr 3fr 2fr;
+        grid-template-rows: 1fr 9fr;
+        grid-template-areas: 
+        'nav nav nav' 
+        'col1 col2 col3'
+        ;
+    }
+
+    h1 {
+        color: #b9abab;
+        text-align: center;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: bold;
+
+    }
+    nav {
+        background-color: rgb(255, 255, 255);
+        grid-area: nav;
+    }
+    #col1{
+        background-color: aliceblue;
+        grid-area: col1;
+    }
+    #col2{
+        background-color:aliceblue;
+        grid-area: col2;
+    }
+    #col3{
+        background-color: aliceblue;
+        grid-area: col3;
+    }
+    button {
+        background-color: aliceblue;
+        border-radius: 10em;
+        box-shadow: 0.1em 0.7em black;
+        margin: 2em;
+            width: -webkit-fill-available;
+    }
+    button.active {
+        box-shadow: 0 5px #666;
+        transform: translateY(0.4em);
+        svg{
+            stroke: lime;
+        }
+    }
+    @media screen and (max-width: 600px){
+        container{
+            grid-template-columns: 0 1fr 0;
+            grid-template-rows: 0.1fr 10fr;
+            grid-template-areas: 
+            'nav nav nav' 
+            'col1 col1 col1'
+            ;
+        }
+        
+
+        
+</style>
 <script>
     const button = document.querySelector("button");
-    button.addEventListener("click", updateName);
+    button.addEventListener("click", () => {
+    button.classList.toggle("active");});
 
     function updateName() {
         if(button.textContent === 'SWITCH ON'){

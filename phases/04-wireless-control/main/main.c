@@ -42,25 +42,94 @@ void browser_toggle(){
 /* Our URI handler function to be called during GET /uri request */
 esp_err_t get_handler(httpd_req_t *req)
 {
-      
-    /* Send a simple response */
-    if (!RELAY_STATE)
-    {
         const char* resp = "<!DOCTYPE html>\n"
         "<html>\n"
         "<head>\n"
-        "<meta charset='UTF-8' \>\n"
+        "<meta charset='UTF-8'>\n"
+        "<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n"
         "<title>Remote Control</title>\n"
         "</head>\n"
         "<body>\n"
-        "<h1>ESP32 Smart Plug</h1>\n"
-        "<button type='button' onclick='httpToggle()'>SWITCH ON</button>\n"
+        "<div class='container'>\n"
+        "<nav>\n"
+            "<h1>ESP32 Smart Plug</h1>\n"
+        "</nav>\n"
+        "<div id='col1'></div>\n"
+        "<div id='col2'>\n"
+        "<button type='button' onclick='httpToggle()'>\n"
+        "<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-power'><path d='M18.36 6.64a9 9 0 1 1-12.73 0'></path><line x1='12' y1='2' x2='12' y2='12'></line></svg>\n"
+        "</button>\n"
+        "</div>\n"
+        "<div id='col3'></div>"
+        "</div>"
         "</body>\n"
         "</html>\n"
+        "<style>\n"
+            "* {margin: 0;padding: 0;box-sizing: border-box;}\n"
+            ".container {\n"
+            "display: grid;\n"
+            "height: 100vh;\n"
+
+            "grid-template-columns: 3fr 4fr 3fr;\n"
+            "grid-template-rows: 1fr 9fr;\n"
+            "grid-template-areas:\n" 
+                "'nav nav nav'\n" 
+                "'col1 col2 col3'\n"
+                ";\n"
+                    "}\n"
+
+            "h1 {\n"
+                "color: #b9abab;\n"
+                "text-align: center;\n"
+                "font-family: Verdana, Geneva, Tahoma, sans-serif;\n"
+                "font-weight: bold;\n"
+
+            "}\n"
+            "nav {\n"
+                "background-color: rgb(255, 255, 255);\n"
+                "grid-area: nav;\n"
+            "}\n"
+            "#col1{\n"
+                "background-color: aliceblue;\n"
+                "grid-area: col1;\n"
+            "}\n"
+            "#col2{\n"
+                "background-color:aliceblue;\n"
+                "grid-area: col2;\n"
+            "}\n"
+            "#col3{\n"
+                "background-color: aliceblue;\n"
+                "grid-area: col3;\n"
+            "}\n"
+            "button {\n"
+                "background-color: aliceblue;\n"
+                "border-radius: 10em;\n"
+                "box-shadow: 0.1em 0.7em black;\n"
+                "margin: 2em;\n"
+                "width: -webkit-fill-available;\n"
+            "}\n"
+            "button.active {\n"
+                "box-shadow: 0 5px #666;\n"
+                "transform: translateY(0.4em);\n"
+                "svg{\n"
+                    "stroke: lime;\n"
+                "}\n"
+            "}\n"
+            "@media screen and (max-width: 550px){\n"
+                ".container{\n"
+                    "grid-template-columns: 0 1fr 0;\n"
+                    "grid-template-rows: 0.1fr 10fr;\n"
+                    "grid-template-areas:\n"
+                    "'nav nav nav'\n"
+                    "'col1 col2 col3'\n"
+                    ";\n"
+                "}\n"
+            "}\n"
+        "</style>\n"
         "<script>\n"
             "const button = document.querySelector('button');\n"
-            "button.addEventListener('click', updateName);\n"
-            ""
+            "button.addEventListener('click', () => {\n"
+            "button.classList.toggle('active');});\n"
 
             "function updateName() {\n"
             "if(button.textContent === 'SWITCH ON'){\n"
@@ -74,46 +143,10 @@ esp_err_t get_handler(httpd_req_t *req)
                 "method: 'POST',\n"
                 "});\n"
             "}\n"
-        "</script>\n" ;
-        httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
-        return ESP_OK;
-    } else if(RELAY_STATE){
-        const char* resp = "<!DOCTYPE html>\n"
-        "<html>\n"
-        "<head>\n"
-        "<meta charset='UTF-8' \>\n"
-        "<title>Remote Control</title>\n"
-        "</head>\n"
-        "<body>\n"
-        "<h1>ESP32 Smart Plug</h1>\n"
-        "<button type='button' onclick='httpToggle()'>SWITCH OFF</button>\n"
-        "</body>\n"
-        "</html>\n"
-        "<script>\n"
-            "const button = document.querySelector('button');\n"
-            "button.addEventListener('click', updateName);\n"
-            
-
-            "function updateName() {\n"
-            "if(button.textContent === 'SWITCH ON'){\n"
-                "button.textContent = 'SWITCH OFF';\n"
-            "} else if(button.textContent === 'SWITCH OFF') {\n"
-                "button.textContent = 'SWITCH ON';\n"
-            "}\n"
-            "}\n"
-            "async function httpToggle(){\n"
-                "const response = await fetch('/uri', {\n"
-                "method: 'POST',\n"
-                "});\n"
-            "}\n"
-        "</script>\n" ;
+        "</script>\n";
         httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
         return ESP_OK;
     }
-    return ESP_FAIL;
-
-}
-
 /* Our URI handler function to be called during POST /uri request */
 esp_err_t post_handler(httpd_req_t *req)
 {
